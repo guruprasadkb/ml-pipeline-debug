@@ -1,0 +1,84 @@
+version: "1"
+metadata:
+  title: "ML Pipeline Debugging Challenge"
+  description: "Debug a fraud detection ML pipeline that achieves 99% training accuracy but fails in production"
+  scenario: bug_hunt
+  language: python
+  difficulty: medium
+  estimated_time_minutes: 90
+  tags:
+    - machine-learning
+    - data-science
+    - debugging
+    - scikit-learn
+
+environment:
+  base_image: hireloop/jupyterlab:latest
+  setup_commands:
+    - "pip install -r requirements.txt"
+  env_vars: {}
+
+workspace:
+  open_files:
+    - path: README.md
+      focus: true
+    - path: notebooks/exploration.ipynb
+    - path: src/pipeline.py
+  terminal:
+    enabled: true
+    working_directory: /workspace
+
+agent:
+  enabled: true
+  provider: openai
+  model: gpt-4
+  leash: moderate
+  can_write_to_disk: true
+
+challenge:
+  prompt: |
+    ## ML Pipeline Debugging Challenge
+
+    You've inherited a fraud detection ML pipeline from a colleague who left the team.
+    The pipeline was reported to achieve **99% accuracy** during development, but
+    **production performance dropped to ~50%** — barely better than random guessing.
+
+    The business team has flagged these specific issues:
+    - Model predictions are heavily biased toward the majority class (non-fraud)
+    - Model accuracy drops dramatically on new data
+    - Stakeholders don't trust the reported metrics
+
+    ### Your Task
+
+    1. **Explore** the codebase and data to understand the pipeline
+    2. **Identify all bugs** — there are at least 4 significant issues
+    3. **Fix each bug** and explain why it matters
+    4. **Verify** your fixes by running the test suite: `pytest -v`
+    5. The final model should generalize properly to unseen data
+
+    ### Files to Review
+    - `src/pipeline.py` — Main orchestration
+    - `src/data_loader.py` — Data loading and splitting
+    - `src/preprocessing.py` — Feature preprocessing
+    - `src/model.py` — Model training and evaluation
+    - `src/evaluation.py` — Metrics reporting
+    - `data/fraud_detection.csv` — Dataset (1000 transactions)
+
+    ### Hints
+    - Think about what could cause a model to look perfect in training but fail in production
+    - Consider how the data is being split and preprocessed
+    - Question whether the evaluation metrics are appropriate for this problem
+
+scoring:
+  rubric: default
+  dimensions:
+    - name: ML Understanding
+      weight: 0.25
+    - name: AI Collaboration Quality
+      weight: 0.20
+    - name: Verification Discipline
+      weight: 0.20
+    - name: Code Quality
+      weight: 0.20
+    - name: Communication
+      weight: 0.15

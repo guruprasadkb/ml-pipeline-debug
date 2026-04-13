@@ -1,0 +1,50 @@
+version: "1"
+metadata:
+  title: "ML Pipeline Debugging — Scoring Rubric"
+  challenge: ml-pipeline-debug
+
+dimensions:
+  - name: ML Understanding
+    weight: 0.25
+    description: "Demonstrates understanding of ML concepts: data leakage, evaluation metrics, preprocessing pitfalls"
+    anchors:
+      1: "Does not identify any ML-specific bugs. Treats issues as generic code bugs."
+      2: "Identifies 1-2 issues but misses the root cause (e.g., sees bad accuracy but doesn't connect it to data leakage)."
+      3: "Identifies most bugs and explains the ML reasoning (e.g., 'accuracy is misleading for imbalanced data')."
+      4: "Identifies all bugs, explains why each matters for generalization, and chooses appropriate fixes (e.g., stratified split, F1 score, proper scaling)."
+
+  - name: AI Collaboration Quality
+    weight: 0.20
+    description: "How effectively the candidate uses AI to explore and fix ML issues"
+    anchors:
+      1: "Asks vague prompts like 'fix the model' or 'why doesn't this work'."
+      2: "Asks reasonable questions but accepts AI output without applying ML judgment."
+      3: "Asks targeted questions ('Is there data leakage in this preprocessing step?') and evaluates AI suggestions against ML best practices."
+      4: "Uses AI as a sounding board for ML hypotheses, modifies AI suggestions based on domain knowledge, and verifies AI claims independently."
+
+  - name: Verification Discipline
+    weight: 0.20
+    description: "Tests fixes, validates with appropriate metrics, checks for regressions"
+    anchors:
+      1: "Makes changes without running any tests or checking metrics."
+      2: "Runs tests after all changes are made, but doesn't verify individual fixes."
+      3: "Runs tests after each major fix, checks that metrics improve."
+      4: "Runs tests iteratively, validates with multiple metrics (precision, recall, F1), checks cross-validation, verifies on holdout data."
+
+  - name: Code Quality
+    weight: 0.20
+    description: "Clean, correct fixes that follow ML best practices"
+    anchors:
+      1: "Fixes are hacky or introduce new issues. Code is messy."
+      2: "Fixes work but are not idiomatic (e.g., manual train/test split instead of using sklearn)."
+      3: "Fixes are clean, use appropriate sklearn APIs, and follow conventions."
+      4: "Fixes are clean, well-documented, handle edge cases, and the pipeline is production-ready."
+
+  - name: Communication
+    weight: 0.15
+    description: "Explains reasoning, documents findings, and communicates clearly"
+    anchors:
+      1: "No explanation of changes. Silent fixes."
+      2: "Brief comments but no explanation of why the original code was wrong."
+      3: "Documents each bug and fix with clear ML reasoning."
+      4: "Documents bugs, explains impact on production, suggests monitoring strategies, and communicates as if writing a post-mortem."
