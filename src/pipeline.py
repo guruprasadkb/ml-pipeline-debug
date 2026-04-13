@@ -6,14 +6,20 @@ and reports performance metrics.
 Known issue: The model achieves 99% accuracy in development but drops to ~50%
 in production. The team suspects data or evaluation issues.
 """
+import os
+
 from src.data_loader import load_data, split_data
 from src.preprocessing import preprocess_features
 from src.model import train_model, evaluate_model
 from src.evaluation import generate_report
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def run_pipeline(data_path: str = "data/fraud_detection.csv"):
+
+def run_pipeline(data_path: str = None):
     """Execute the full ML pipeline."""
+    if data_path is None:
+        data_path = os.path.join(_PROJECT_ROOT, "data", "fraud_detection.csv")
     print("Loading data...")
     df = load_data(data_path)
     print(f"  Dataset: {len(df)} rows, {len(df.columns)} columns")
